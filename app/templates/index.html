@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <link href="{{ url_for('static', filename='css/sweetalert2.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}i2c Relay Controller{% endblock %}
+
+{% block page_content %}
+    <p>Use the buttons below to set/toggle the status of the relay board's relays. You can set a specific relay on or
+        off by tapping the On and Off buttons for a particular relay. The Toggle button flips the status of the selected
+        relay. The All On and All Off buttons set all of the relays simultaneously.</p>
+    <p>You can edit the name and notes for the Relay. Changes will be saved to the config file on the server when the field
+      losses focus.</p>
+    <p>Adding or removing relays has to be done currently on the config file.</p>
+    <table class="table table-bordered">
+    </table>
+    <p>You should hear the relays click as they're activated; if you don't, it's probably not working ;-)</p>
+{% endblock %}

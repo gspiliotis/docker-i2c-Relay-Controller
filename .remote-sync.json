@@ -1,0 +1,17 @@
+{
+  "uploadOnSave": true,
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "hostname": "n8.angelnu.com",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "watch": [
+
+  ],
+  "transport": "scp",
+  "username": "root",
+  "target": "i2c",
+  "keyfile": "/Users/anunez/.ssh/id_ecdsa"
+}
