@@ -11,11 +11,11 @@ This project is based on the [Seeed-Studio-Relay-Board](https://github.com/johnw
 ![Web Application](screenshots/figure-01.png)
 
 ## Ideas to Implement
-- [] Add automated multi-arch builds with drone.io
-- [] Add mockup for unit test
-- [] show device bus and addresses on UI
-- [] allow adding and removing devices from the webpage
-- [] allow discovering devices automatically
+- [ ] Add automated multi-arch builds with drone.io
+- [ ] Add mockup for unit test
+- [ ] show device bus and addresses on UI
+- [ ] allow adding and removing devices from the webpage
+- [ ] allow discovering devices automatically
 
 ## Hardware Components
 
@@ -33,7 +33,7 @@ To use this project, you'll need at a minimum the following hardware components:
 3. `docker run --privileged -p 5000:80 -v i2c_relay_config:/config --rm -ti angelnu/i2c-relay`
    - privileged is needed to access i2c bus - this should work just sharing the specific device
    - list of relays will be stored docker volume i2c_relay_config. You can find its path with `docker volume inspect i2c_relay_config`
-4. connect to <IP address>:5000
+4. connect to `http://Raspberry-IP:5000`
 
 ## Configuring Your Raspberry Pi
 
