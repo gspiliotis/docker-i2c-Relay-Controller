@@ -1,31 +1,27 @@
 import os
 import os.path
 import yaml #needs python3-yaml
+import json
 import io
 from relay import Relay
 
 # Configuration file
-CONFIG_FILE = os.getenv('I2C_CONFIG_FILE', "config.yaml")
-
-# 12C Bus Address
-I2C_BUS = 1 # 0 = /dev/i2c-0 (port I2C0), 1 = /dev/i2c-1 (port I2C1)
-
-# The number of relay ports on the relay board.
-NUM_RELAY_PORTS = 4
-
-# Change the following value if your Relay board uses a different I2C address.
-DEVICE_ADDRESS = 0x10  # 7 bit address (will be left shifted to add the read write bit)
+CONFIG_FILE = os.getenv('I2C_CONFIG_FILE', "/tmp/config.yaml")
 
 #####################################
 #             Relays                #
 #####################################
 
 class Relays:
-    __relays = []
+    __relays = {}
+
+    @staticmethod
+    def get_relay(id):
+        return Relays.__relays[id]
 
     @staticmethod
     def get_relays():
-        return Relays.__relays
+        return Relays.__relays.values()
 
     @staticmethod
     def get_relays_len():
@@ -36,6 +32,10 @@ class Relays:
         return (index >= 0) & (index < Relays.get_relays_len())
 
     @staticmethod
+    def is_valid_relayId(id):
+        return id in Relays.__relays.keys()
+
+    @staticmethod
     def get_relay_byIndex(index):
         if not Relays.is_valid_relayIndex(index):
             raise ValueError("Relay index outside range", index, "Min Value:", 0, "Max Value:", Relays.get_relays_len()-1)
@@ -43,7 +43,20 @@ class Relays:
 
     @staticmethod
     def append(relay):
-        Relays.get_relays().append(relay)
+        Relays.__relays[relay.get_id()] = relay
+
+    @staticmethod
+    def add(relayStr):
+        relay_raw = json.loads(relayStr)
+        relay = Relay(**relay_raw)
+        Relays.append(relay)
+        Relays.write_config()
+        return relay
+
+    @staticmethod
+    def delete(id):
+        del Relays.__relays[id]
+        Relays.write_config()
 
     @staticmethod
     def read_config():
@@ -69,14 +82,6 @@ class Relays:
             print("Creating "+CONFIG_FILE)
             config = {}
             config['relays'] = []
-            for relay in range(1,NUM_RELAY_PORTS+1):
-                relay = Relay(
-                    bus = I2C_BUS,
-                    device_address = DEVICE_ADDRESS,
-                    data_address = relay
-                )
-                Relays.append(relay)
-                config['relays'].append(relay.to_dict())
             # Save initial config
             Relays.write_config()
 

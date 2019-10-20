@@ -1,6 +1,7 @@
 FROM python:alpine
 
 RUN apk add --no-cache --virtual .build-deps gcc libc-dev make \
+    && apk add i2c-tools --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     && pip install flask Flask-Bootstrap flask-socketio eventlet smbus2 pyyaml \
     && apk del .build-deps gcc libc-dev make
 
@@ -9,8 +10,13 @@ RUN chmod +x /app/*.sh
 
 WORKDIR /app/
 
-EXPOSE 80
+EXPOSE 1080
 
+# DEBUG - if true (default) a debugger is started and changes to src are automatically reloaded
+#ENV DEBUG=False
+# PORT - port for webserver
+#ENV PORT=1080
+#ENV I2C_PERSISTENCE=true
 # I2C_PERSISTENCE - if true (default) the relays are set to the value in the config file on boot
 #ENV I2C_PERSISTENCE=true
 # SECRET_KEY - secret for socketIO. If not set a random one is generated on each boot
