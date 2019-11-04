@@ -15,15 +15,15 @@ steps:
     - arch=amd64
     cache_from:
     - angelnu/i2c-relay:master-amd64
-    - "angelnu/i2c-relay:${DRONE_BRANCH}-amd64"
-    - "angelnu/i2c-relay:${DRONE_BRANCH}-amd64"
+    - angelnu/i2c-relay:${DRONE_BRANCH}-amd64
+    - angelnu/i2c-relay:${DRONE_BRANCH}-amd64
     - python:alpine
     password:
       from_secret: DOCKER_PASS
     repo: angelnu/i2c-relay
     tags:
-    - "${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-amd64"
-    - "${DRONE_BRANCH}-amd64"
+    - ${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-amd64
+    - ${DRONE_BRANCH}-amd64
     - latest-amd64
     username:
       from_secret: DOCKER_USER
@@ -45,15 +45,15 @@ steps:
     - arch=arm
     cache_from:
     - angelnu/i2c-relay:master-arm
-    - "angelnu/i2c-relay:${DRONE_BRANCH}-arm"
-    - "angelnu/i2c-relay:${DRONE_BRANCH}-arm"
+    - angelnu/i2c-relay:${DRONE_BRANCH}-arm
+    - angelnu/i2c-relay:${DRONE_BRANCH}-arm
     - python:alpine
     password:
       from_secret: DOCKER_PASS
     repo: angelnu/i2c-relay
     tags:
-    - "${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-arm"
-    - "${DRONE_BRANCH}-arm"
+    - ${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-arm
+    - ${DRONE_BRANCH}-arm
     - latest-arm
     username:
       from_secret: DOCKER_USER
@@ -75,15 +75,15 @@ steps:
     - arch=arm64
     cache_from:
     - angelnu/i2c-relay:master-arm64
-    - "angelnu/i2c-relay:${DRONE_BRANCH}-arm64"
-    - "angelnu/i2c-relay:${DRONE_BRANCH}-arm64"
+    - angelnu/i2c-relay:${DRONE_BRANCH}-arm64
+    - angelnu/i2c-relay:${DRONE_BRANCH}-arm64
     - python:alpine
     password:
       from_secret: DOCKER_PASS
     repo: angelnu/i2c-relay
     tags:
-    - "${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-arm64"
-    - "${DRONE_BRANCH}-arm64"
+    - ${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-arm64
+    - ${DRONE_BRANCH}-arm64
     - latest-arm64
     username:
       from_secret: DOCKER_USER
@@ -97,7 +97,7 @@ platform:
   arch: amd64
 
 steps:
-- name: "manifest_${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}"
+- name: manifest_${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}
   image: plugins/manifest:1
   settings:
     ignore_missing: true
@@ -107,12 +107,12 @@ steps:
     - linux/amd64
     - linux/arm
     - linux/arm64
-    target: "angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}"
-    template: "angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH"
+    target: angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}
+    template: angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH
     username:
       from_secret: DOCKER_USER
 
-- name: "manifest_${DRONE_BRANCH}"
+- name: manifest_${DRONE_BRANCH}
   image: plugins/manifest:1
   settings:
     ignore_missing: true
@@ -122,8 +122,8 @@ steps:
     - linux/amd64
     - linux/arm
     - linux/arm64
-    target: "angelnu/i2c-relay:${DRONE_BRANCH}"
-    template: "angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH"
+    target: angelnu/i2c-relay:${DRONE_BRANCH}
+    template: angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH
     username:
       from_secret: DOCKER_USER
 
@@ -138,7 +138,7 @@ steps:
     - linux/arm
     - linux/arm64
     target: angelnu/i2c-relay:latest
-    template: "angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH"
+    template: angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH
     username:
       from_secret: DOCKER_USER
 
