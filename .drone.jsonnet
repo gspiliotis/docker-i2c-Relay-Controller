@@ -67,7 +67,7 @@ local Manifest_Step(platforms, prefix, tag) = {
     "target": repo+":" + prefix + tag,
     "ignore_missing": true,
     "template": repo + ":" + prefix + "${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH",
-    "platforms": platforms
+    "platforms": ["linux/"+platform for platform in platforms]
   }
 };
 
