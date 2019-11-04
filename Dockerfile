@@ -1,4 +1,5 @@
-FROM python:alpine
+ARG BASE=python:alpine
+FROM $BASE
 
 RUN apk add --no-cache --virtual .build-deps gcc libc-dev make \
     && apk add i2c-tools --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
