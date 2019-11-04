@@ -129,6 +129,18 @@ def api_get_inverted(relay_id):
         socketio.emit('updated_relays_status', Relays.get_relays_raw())
     return make_response(json.dumps(relay.get_inverted()), 200)
 
+#Relay initValue
+@app.route('/<int:relay_id>/initValue', methods = ['GET', 'POST'])
+def api_get_initValue(relay_id):
+    if not Relays.is_valid_relayId(relay_id):
+        return make_response(get_message("Invalid ID: "+str(relay_id)), 404)
+    relay = Relays.get_relay(relay_id)
+    if request.method == 'POST':
+        print(request.form['data'])
+        relay.set_initValue(json.loads(request.form['data']))
+        socketio.emit('updated_relays_status', Relays.get_relays_raw())
+    return make_response(json.dumps(relay.get_initValue()), 200)
+
 #Relay Status
 @app.route('/<int:relay_id>/status')
 def api_get_status(relay_id):

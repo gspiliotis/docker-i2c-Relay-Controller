@@ -28,6 +28,10 @@ function setRelayInverted(relay, inverted) {
     callApiWithRelay(relay, 'inverted', inverted);
 }
 
+function setRelayInitValue(relay, initValue) {
+    callApiWithRelay(relay, 'initValue', initValue);
+}
+
 function callApiWithRelay(relay, command, data) {
     let url = relay + '/' + command;
     callApi(url, data);
@@ -208,6 +212,18 @@ function generateTable(relays) {
                 setRelayInverted(id, ! cell.getValue());
               }
             },
+            //On Value
+            {title:"Init Value", field:"initValue", editor:"select", align:"center", editorParams: {
+                values:{
+                  "last": "Last",
+                  "on": "On",
+                  "off": "Off",
+                }
+              },cellEdited:function(cell){
+                let id = cell.getRow().getData().id;
+                setRelayInitValue(id, JSON.stringify(cell.getValue()));
+              }
+            },
           ]
         },
         //Description
@@ -274,6 +290,8 @@ $("#scan-button").click(function(){
 //Add row on "Add Row" button click
 $("#add-button").click(function(){
 
+  let relay_type_id = undefined;
+
   //Documentation at https://sweetalert2.github.io/#input-types
   Swal.fire({
     title: 'Adding Relays',
@@ -314,9 +332,11 @@ $("#add-button").click(function(){
         //Register for selection in order to update description
         function selectChange(){
           relay_types.forEach(function(value, index, array){
+            console.log("SELECT:"+select.value+ " NAME:"+value.name);
             if (select.value == value.name) {
               descDiv.textContent = value.description;
               descDiv.href = value.url;
+              relay_type_id = value.id;
             }
           });
         };
@@ -326,29 +346,33 @@ $("#add-button").click(function(){
     },
     preConfirm: function() {
       let name = document.getElementById('swal-name').value
+      //Name
       if (!name){
         Swal.showValidationMessage(`Name cannot be empty`);
         return false;
       }
 
+      //Bus
       let bus = parseInt("0x" + document.getElementById('swal-bus').value);
       if (isNaN(bus)) {
         Swal.showValidationMessage(`Bus is not a valid number`);
         return false;
       }
 
+      //Address
       let board_address = parseInt("0x" + document.getElementById('swal-board_address').value);
       if (isNaN(board_address)) {
         Swal.showValidationMessage(`Board Address is not a valid number`);
         return false;
       }
 
-      let relay_type = parseInt("0x" + document.getElementById('swal-relay_type').value);
-      if (isNaN(relay_type)) {
-        Swal.showValidationMessage(`Relay Type is not a valid number`);
+      //Type
+      if (relay_type_id == undefined) {
+        Swal.showValidationMessage(`Relay Type Id not found`);
         return false;
       }
 
+      //Relay number
       let relay_number = parseInt("0x" + document.getElementById('swal-relay_number').value);
       if (isNaN(relay_number)) {
         Swal.showValidationMessage(`Relay Number is not a valid number`);
@@ -356,7 +380,7 @@ $("#add-button").click(function(){
       }
 
       addRelayApi({
-            type: relay_type,
+            type: relay_type_id,
             name: name,
             bus: bus,
             board_address: board_address,

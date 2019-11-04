@@ -43,9 +43,10 @@ More relay board types can be supported by adding the corresponding file under _
 1. Follow the instructions from your relay board to install the HW.
 2. [Enable i2c](#enabling-i2c).
 2. Install Docker
-3. `docker run --privileged -p 1080:1080 -v i2c_relay_config:/config --rm -ti angelnu/i2c-relay`
+3. `docker run --privileged -p 1080:1080 -v /etc/i2c-relay:/config -d --restart=always angelnu/i2c-relay`
    - privileged is needed to access i2c bus - this should also work just by sharing the specific I2C device
-   - list of relays will be stored in the docker volume `i2c_relay_config` You can find its path with `docker volume inspect i2c_relay_config`
+   - docker container started as daemon with auto-restart
+   - list of relays will be stored in the docker volume `/etc/i2c-relay`
 4. connect to `http://Raspberry-IP:1080`.
 5. [scan for relays](#scan-i2c-bus).
 6. [Add relays](#adding-relays).
