@@ -1,5 +1,10 @@
 local base_img = 'python:alpine';
 local repo = 'angelnu/i2c-relay';
+local archs = [
+  "amd64",
+  "arm",
+  "arm64"
+];
 
 local Build_Docker_Step(arch, prefix) = {
   name: prefix + 'docker',
@@ -69,7 +74,7 @@ local Manifest_Step(platforms, prefix, tag) = {
 local Manifest_Pipeline(platforms) = {
   "kind": "pipeline",
   "name": "build_manifest",
-  depends_on: platforms,
+  depends_on: ["build_"+platform for platform in platforms],
   "steps": [
     Manifest_Step(platforms,"", "${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}"),
     Manifest_Step(platforms,"", "${DRONE_BRANCH}"),
@@ -79,13 +84,7 @@ local Manifest_Pipeline(platforms) = {
 
 
 
-[
-  Build_Pipeline("amd64"),
-  Build_Pipeline("arm"),
-  Build_Pipeline("arm64"),
-  Manifest_Pipeline([
-    "linux/amd64",
-    "linux/arm",
-    "linux/arm64"
-  ])
+[ Build_Pipeline(arch) for arch in archs
+]+[
+  Manifest_Pipeline(archs)
 ]

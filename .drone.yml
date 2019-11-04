@@ -104,9 +104,9 @@ steps:
     password:
       from_secret: DOCKER_PASS
     platforms:
-    - linux/amd64
-    - linux/arm
-    - linux/arm64
+    - amd64
+    - arm
+    - arm64
     target: angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}
     template: angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH
     username:
@@ -119,9 +119,9 @@ steps:
     password:
       from_secret: DOCKER_PASS
     platforms:
-    - linux/amd64
-    - linux/arm
-    - linux/arm64
+    - amd64
+    - arm
+    - arm64
     target: angelnu/i2c-relay:${DRONE_BRANCH}
     template: angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH
     username:
@@ -134,17 +134,17 @@ steps:
     password:
       from_secret: DOCKER_PASS
     platforms:
-    - linux/amd64
-    - linux/arm
-    - linux/arm64
+    - amd64
+    - arm
+    - arm64
     target: angelnu/i2c-relay:latest
     template: angelnu/i2c-relay:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}-${DRONE_COMMIT}-ARCH
     username:
       from_secret: DOCKER_USER
 
 depends_on:
-- linux/amd64
-- linux/arm
-- linux/arm64
+- build_amd64
+- build_arm
+- build_arm64
 
 ...
