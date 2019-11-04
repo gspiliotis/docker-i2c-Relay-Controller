@@ -13,11 +13,11 @@ This project is based on the [Seeed-Studio-Relay-Board](https://github.com/johnw
 It is intended to run inside a docker container but you might also run it [directly](app/start-server.sh).
 
 ## Ideas to Implement
-- [ ] Add automated multi-arch builds with drone.io
+- [x] Add automated multi-arch builds with drone.io
 - [ ] Add mockup for unit test
 - [x] show device bus and addresses on UI
 - [x] allow adding and removing devices from the webpage
-- [ ] allow discovering devices automatically
+- [x] allow discovering devices automatically
 
 ## Hardware Components
 
