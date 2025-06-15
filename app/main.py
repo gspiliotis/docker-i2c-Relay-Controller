@@ -168,7 +168,7 @@ def api_toggle_relay(relay_id):
 def api_relay_on(relay_id):
     if not Relays.is_valid_relayId(relay_id):
         return make_response(get_message("Invalid ID: "+str(relay_id)), 404)
-    Relays.get_relay_byId(relay_id).on()
+    Relays.get_relay(relay_id).on()
     socketio.emit('updated_relays_status', Relays.get_relays_raw())
     return make_response(get_message("Turned ON OK"), 200)
 
@@ -178,7 +178,7 @@ def api_relay_on(relay_id):
 def api_relay_off(relay_id):
     if not Relays.is_valid_relayId(relay_id):
         return make_response(get_message("Invalid ID: "+str(relay_id)), 404)
-    Relays.get_relay_byId(relay_id).off()
+    Relays.get_relay(relay_id).off()
     socketio.emit('updated_relays_status', Relays.get_relays_raw())
     return make_response(get_message("Turned OFF OK"), 200)
 
